@@ -1,6 +1,8 @@
 package study.kotlin.fp
 
+import study.kotlin.fp.Recursion.has
 import study.kotlin.fp.Recursion.maximum
+import study.kotlin.fp.Recursion.quicksort
 import study.kotlin.fp.Recursion.reverse
 import java.math.BigInteger
 import kotlin.test.Ignore
@@ -69,6 +71,54 @@ class RecursionTest {
         assertEquals(listOf("가", "나", "다"), Recursion.take(3, listOf("가", "나", "다", "라", "마", "바")))
         assertEquals(listOf("가"), Recursion.take(1, listOf("가", "나", "다", "라", "마", "바")))
         assertEquals(listOf(), Recursion.take(0, listOf("가", "나", "다", "라", "마", "바")))
-        assertEquals(listOf(55, 24, 23, 65, 34, 65, 34, 12, 34), Recursion.take(9, listOf(55, 24, 23, 65, 34, 65, 34, 12, 34, 23)))
+        assertEquals(
+            listOf(55, 24, 23, 65, 34, 65, 34, 12, 34),
+            Recursion.take(9, listOf(55, 24, 23, 65, 34, 65, 34, 12, 34, 23))
+        )
+    }
+    
+    @Test
+    fun `has success`() {
+        assertEquals(true, listOf("1", "2", "3", "4").has("2"))
+        assertEquals(false, listOf("1", "2", "3", "4").has("6"))
+        assertEquals(true, listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 11).has(11))
+    }
+    
+    @Test
+    fun `repeat success`() {
+        assertEquals(5, Recursion.repeat(5).first())
+        run {
+            Recursion.repeat(5).forEachIndexed { index, n ->
+                if (index == 10) return@run else assertEquals(5, n)
+            }
+        }
+    }
+    
+    @Test
+    fun `takeSequence success`() {
+        assertEquals(listOf(1, 1, 1, 1), Recursion.takeSequence(4, Recursion.repeat(1)))
+        assertEquals(listOf(12), Recursion.takeSequence(1, Recursion.repeat(12)))
+        assertEquals(listOf(), Recursion.takeSequence(0, Recursion.repeat(12)))
+    }
+    
+    @Test
+    fun `zip success`() {
+        assertEquals(listOf(Pair(1, 2), Pair(3, 4), Pair(5, 6)), Recursion.zip(listOf<Int>(1, 3, 5, 7), listOf<Int>(2, 4, 6)))
+        assertEquals(listOf(Pair("가", "다"), Pair("나", "라")), Recursion.zip(listOf<String>("가", "나"), listOf<String>("다", "라", "마")))
+        assertEquals(listOf(), Recursion.zip(listOf<Int>(1, 3, 5, 7), listOf()))
+    }
+    
+    @Test
+    fun `quicksort success`() {
+        assertEquals(listOf(1, 2, 3, 4, 5, 6), listOf(1, 4, 5, 6, 2, 3).quicksort())
+        assertEquals(listOf(1, 2, 3, 4, 5, 6, 6), listOf(6, 1, 4, 5, 6, 2, 3).quicksort())
+        assertEquals(listOf(1, 1, 1, 2, 3, 4, 5, 6, 6), listOf(6, 1, 4, 5, 1, 6, 2, 3, 1).quicksort())
+    }
+    
+    @Test
+    fun `gcd success`() {
+        assertEquals(1, Recursion.gcd(12345, 1234))
+        assertEquals(9, Recursion.gcd(18, 27))
+        assertEquals(17, Recursion.gcd(53397, 578))
     }
 }

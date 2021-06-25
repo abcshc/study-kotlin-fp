@@ -26,7 +26,7 @@ object Recursion {
     }
     
     fun <E> List<E>.reverse(): List<E> = when (this.size) {
-        0 -> throw error("empty list")
+        0 -> emptyList()
         1 -> this
         else -> mutableListOf<E>().apply {
             add(this@reverse.last())
@@ -41,7 +41,7 @@ object Recursion {
     }
     
     fun replicate(count: Int, target: Int): List<Int> = when (count) {
-        0 -> listOf()
+        0 -> emptyList()
         1 -> listOf(target)
         else -> mutableListOf<Int>().apply {
             add(target)
@@ -50,11 +50,60 @@ object Recursion {
     }
     
     fun <E> take(count: Int, list: List<E>): List<E> = when (count) {
-        0 -> listOf()
+        0 -> emptyList()
         1 -> listOf(list.first())
         else -> mutableListOf<E>().apply {
             add(list.first())
             addAll(take(count - 1, list.subList(1, list.size)))
+        }
+    }
+    
+    fun <E> List<E>.has(item: E): Boolean = when (this.size) {
+        0 -> false
+        1 -> this.first()!! == item
+        else -> this.first()!! == item || this.subList(1, this.size).has(item)
+    }
+    
+    fun repeat(n: Int): Sequence<Int> = generateSequence(n) { it }
+    
+    fun takeSequence(n: Int, sequence: Sequence<Int>): List<Int> = when (n) {
+        0 -> emptyList()
+        else -> mutableListOf<Int>().apply {
+            val num = sequence.first()
+            add(num)
+            addAll(takeSequence(n - 1, sequence))
+        }
+    }
+    
+    fun <E> zip(list1: List<E>, list2: List<E>): List<Pair<E, E>> = when {
+        list1.isEmpty() || list2.isEmpty() -> emptyList()
+        else -> mutableListOf<Pair<E, E>>().apply {
+            add(Pair(list1.first(), list2.first()))
+            addAll(zip(list1.subList(1, list1.size), list2.subList(1, list2.size)))
+        }
+    }
+    
+    fun List<Int>.quicksort(): List<Int> = when {
+        this.size < 2 -> this
+        else -> {
+            val pivot = this.last()
+            val smaller = mutableListOf<Int>()
+            val bigger = mutableListOf<Int>()
+            this.subList(0, this.size - 1).forEach {
+                if (it > pivot) bigger.add(it) else smaller.add(it)
+            }
+            mutableListOf<Int>().apply {
+                addAll(smaller.quicksort())
+                add(pivot)
+                addAll(bigger.quicksort())
+            }
+        }
+    }
+    
+    fun gcd(a: Int, b: Int): Int {
+        return when (val r = a % b) {
+            0 -> b
+            else -> gcd(b, r)
         }
     }
 }
