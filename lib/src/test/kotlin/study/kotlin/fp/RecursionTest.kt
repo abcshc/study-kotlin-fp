@@ -26,6 +26,10 @@ class RecursionTest {
         assertEquals(BigInteger("9969216677189303386214405760200"), Recursion.fibonacciNumbers(150))
     }
     
+    fun `memoizationFibonacciNumbers big number`() {
+        assertEquals(BigInteger("9969216677189303386214405760200"), Recursion.memoizationFibonacciNumbers(150))
+    }
+    
     @Test
     fun `power success`() {
         assertEquals(1024, Recursion.power(2, 10))

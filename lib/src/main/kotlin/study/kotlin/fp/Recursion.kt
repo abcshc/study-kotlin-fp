@@ -9,6 +9,14 @@ object Recursion {
         else -> fibonacciNumbers(n - 1) + fibonacciNumbers(n - 2)
     }
     
+    var memo: MutableList<BigInteger> = mutableListOf(BigInteger.ZERO, BigInteger.ONE)
+    
+    fun memoizationFibonacciNumbers(n: Int): BigInteger = memo.getOrElse(n) {
+        val result = memoizationFibonacciNumbers(n - 1) + memoizationFibonacciNumbers(n - 2)
+        memo.add(n, result)
+        return@getOrElse result
+    }
+    
     fun power(base: Int, exponent: Int): Int = when (exponent) {
         0 -> 1
         else -> base * power(base, exponent - 1)
