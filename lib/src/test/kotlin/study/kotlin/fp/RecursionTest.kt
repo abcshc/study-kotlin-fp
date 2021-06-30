@@ -62,6 +62,7 @@ class RecursionTest {
     fun `convertDecimalToBinaryString success`() {
         assertEquals("11", Recursion.convertDecimalToBinaryString(3))
         assertEquals("1001111001011111001", Recursion.convertDecimalToBinaryString(324345))
+        assertEquals("10110000001111010", Recursion.convertDecimalToBinaryString(90234))
     }
     
     @Test

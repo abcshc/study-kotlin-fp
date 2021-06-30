@@ -25,13 +25,31 @@ object TailRecursive {
     
     tailrec fun List<Int>.maximum(value: Int = 0): Int = when (this.size) {
         0 -> error("empty list")
-        1 -> this.first()
+        1 -> kotlin.math.max(value, this.first())
         else -> this.subList(1, this.size).maximum(kotlin.math.max(value, this[0]))
     }
     
     tailrec fun <E> List<E>.reverse(acc: List<E> = emptyList()): List<E> = when (this.size) {
-        0 -> emptyList()
+        0 -> acc
         1 -> acc + this
-        else -> this@reverse.subList(0, this@reverse.size - 1).reverse(acc)
+        else -> this@reverse.subList(0, this@reverse.size - 1).reverse(acc + this.last())
+    }
+    
+    tailrec fun convertDecimalToBinaryString(decimal: Int, acc: String = ""): String = when (decimal) {
+        0 -> "0$acc"
+        1 -> "1$acc"
+        else -> convertDecimalToBinaryString(decimal / 2, (decimal % 2).toString() + acc)
+    }
+    
+    tailrec fun replicate(count: Int, target: Int, acc: List<Int> = emptyList()): List<Int> = when (count) {
+        0 -> acc
+        1 -> listOf(target) + acc
+        else -> replicate(count - 1, target, listOf(target) + acc)
+    }
+    
+    tailrec fun <E> take(count: Int, list: List<E>, acc: List<E> = emptyList()): List<E> = when (count) {
+        0 -> acc
+        1 -> acc + listOf(list.first())
+        else -> take(count - 1, list.subList(1, list.size), acc + listOf(list.first()))
     }
 }
