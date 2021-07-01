@@ -52,4 +52,19 @@ object TailRecursive {
         1 -> acc + listOf(list.first())
         else -> take(count - 1, list.subList(1, list.size), acc + listOf(list.first()))
     }
+    
+    tailrec fun <E> zip(list1: List<E>, list2: List<E>, acc: List<Pair<E, E>> = emptyList()): List<Pair<E, E>> = when {
+        list1.isEmpty() || list2.isEmpty() -> acc
+        else -> zip(
+            list1.subList(1, list1.size),
+            list2.subList(1, list2.size),
+            acc + Pair(list1.first(), list2.first())
+        )
+    }
+    
+    tailrec fun <E> List<E>.elem(value: E, result: Boolean = false): Boolean = when {
+        result -> true
+        this.isEmpty() -> false
+        else -> this.subList(1, this.size).elem(value, this.first() == value)
+    }
 }
