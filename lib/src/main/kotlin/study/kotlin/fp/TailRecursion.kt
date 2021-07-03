@@ -1,8 +1,10 @@
 package study.kotlin.fp
 
+import java.math.BigDecimal
 import java.math.BigInteger
+import kotlin.math.max
 
-object TailRecursive {
+object TailRecursion {
     tailrec fun fibonacciNumbers(
         n: Int,
         acc1: BigInteger = BigInteger.ZERO,
@@ -18,6 +20,11 @@ object TailRecursive {
         else -> factorial(n - 1, acc * n)
     }
     
+    tailrec fun factorial(n: BigDecimal, acc: BigDecimal = BigDecimal.ONE): BigDecimal = when (n) {
+        BigDecimal.ZERO -> acc
+        else -> factorial(n - BigDecimal.ONE, acc * n)
+    }
+    
     tailrec fun power(base: Int, exponent: Int, acc: Int = 1): Int = when (exponent) {
         0 -> acc
         else -> power(base, exponent - 1, base * acc)
@@ -25,8 +32,8 @@ object TailRecursive {
     
     tailrec fun List<Int>.maximum(value: Int = 0): Int = when (this.size) {
         0 -> error("empty list")
-        1 -> kotlin.math.max(value, this.first())
-        else -> this.subList(1, this.size).maximum(kotlin.math.max(value, this[0]))
+        1 -> max(value, this.first())
+        else -> this.subList(1, this.size).maximum(max(value, this[0]))
     }
     
     tailrec fun <E> List<E>.reverse(acc: List<E> = emptyList()): List<E> = when (this.size) {
@@ -66,5 +73,10 @@ object TailRecursive {
         result -> true
         this.isEmpty() -> false
         else -> this.subList(1, this.size).elem(value, this.first() == value)
+    }
+    
+    tailrec fun <E> Set<E>.powerset(acc: Set<Set<E>> = setOf(setOf())): Set<Set<E>> = when {
+        isEmpty() -> acc
+        else -> this.subtract(setOf(this.first())).powerset(acc + acc.map { it + this.first() })
     }
 }
