@@ -40,7 +40,7 @@ internal class HighOrderFunctionTest {
     }
     
     @Test
-    fun `isEven using toPartialFUnction success`() {
+    fun `isEven using toPartialFunction success`() {
         assertEquals(true, isEvenUsingToPartialFunction.isDefinedAt(100))
         assertEquals("100 is even", isEvenUsingToPartialFunction(100))
         assertEquals(false, isEvenUsingToPartialFunction.isDefinedAt(99))
