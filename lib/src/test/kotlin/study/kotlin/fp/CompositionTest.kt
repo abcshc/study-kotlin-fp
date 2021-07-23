@@ -2,6 +2,8 @@ package study.kotlin.fp
 
 import org.junit.Test
 import study.kotlin.fp.Composition.compose
+import study.kotlin.fp.Currying.curried
+import study.kotlin.fp.Recursion.gcd
 import study.kotlin.fp.Recursion.power
 import kotlin.math.abs
 import kotlin.test.assertEquals
@@ -42,6 +44,20 @@ internal class CompositionTest {
         val composed = power compose max
         
         assertEquals(4, composed(listOf(1, 2)))
+    }
+    
+    @Test
+    fun `composed gcd power of two`() {
+        val power = { i: Int? -> power(i ?: 0, 2) }
+        val curriedGcd = { m: Int, n: Int -> gcd(m, power(n)) }.curried()
+        val composed = curriedGcd compose power
+        
+        assertEquals(25, composed(25)(5))
+    }
+    
+    @Test
+    fun `zipWith for two list`() {
+        assertEquals(listOf("1A", "2B", "3C"), Composition.zipWith(listOf(1, 2, 3), listOf("A", "B", "C"), { i: Int, s: String -> "$i$s" }))
     }
 }
 
