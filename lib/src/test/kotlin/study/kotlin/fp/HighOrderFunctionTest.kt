@@ -52,4 +52,16 @@ internal class HighOrderFunctionTest {
         assertEquals("Odd", isEven.invokeOrElse(99, "Odd"))
         assertEquals("99 is odd", isEven.orElse(isOdd)(99))
     }
+    
+    
+    @Test
+    fun `takeWhile for condition function`() {
+        assertEquals(listOf(1, 2), HighOrderFunction.takeWhile({ p -> p < 3 }, listOf(1, 2, 3, 4, 5)))
+        assertEquals(listOf('h', 'e', 'l', 'l', 'o'), HighOrderFunction.takeWhile({ p -> ' ' != p }, "hello world".toList()))
+    }
+    
+    @Test
+    fun `takeWhile for infinity using sequence`() {
+        assertEquals(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), HighOrderFunction.takeWhile({ p -> p < 10 }, generateSequence(1) { it + 1 }))
+    }
 }

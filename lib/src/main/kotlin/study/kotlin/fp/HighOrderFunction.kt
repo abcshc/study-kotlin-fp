@@ -7,6 +7,21 @@ object HighOrderFunction {
     val minus: (Int, Int) -> Int = { x, y -> x - y }
     val product: (Int, Int) -> Int = { x, y -> x * y }
     val twiceSum: (Int, Int) -> Int = { x, y -> (x + y) * 2 }
+    
+    
+    tailrec fun <P> takeWhile(condition: (P) -> Boolean, list: List<P>, acc: List<P> = listOf()): List<P> {
+        return when {
+            list.isEmpty() || !condition(list.first()) -> acc
+            else -> takeWhile(condition, list.drop(1), acc + list.first())
+        }
+    }
+    
+    tailrec fun <P> takeWhile(condition: (P) -> Boolean, sequence: Sequence<P>, acc: List<P> = listOf()): List<P> {
+        return when {
+            sequence.none() || !condition(sequence.first()) -> acc
+            else -> takeWhile(condition, sequence.drop(1), acc + sequence.first())
+        }
+    }
 }
 
 class PartialFunction<P, R>(

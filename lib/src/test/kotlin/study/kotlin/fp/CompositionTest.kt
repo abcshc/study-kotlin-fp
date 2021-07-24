@@ -57,7 +57,10 @@ internal class CompositionTest {
     
     @Test
     fun `zipWith for two list`() {
-        assertEquals(listOf("1A", "2B", "3C"), Composition.zipWith(listOf(1, 2, 3), listOf("A", "B", "C"), { i: Int, s: String -> "$i$s" }))
+        assertEquals(
+            listOf("1A", "2B", "3C"),
+            Composition.zipWith(listOf(1, 2, 3), listOf("A", "B", "C"), { i: Int, s: String -> "$i$s" })
+        )
     }
 }
 
