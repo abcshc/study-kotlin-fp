@@ -56,4 +56,14 @@ internal class CurryingTest {
         val curried = min.curried()
         assertEquals(1, curried(1)(5))
     }
+    
+    @Test
+    fun `curring for callback`() {
+        assertEquals("12345", Currying.callback("1")("2")("3")("4")("5"))
+        
+        val partialApplied = Currying.callback("prefix")(":")
+        
+        assertEquals("prefix:123", partialApplied("1")("2")("3"))
+        assertEquals("prefix:abc", partialApplied("a")("b")("c"))
+    }
 }

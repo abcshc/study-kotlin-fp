@@ -27,4 +27,8 @@ object Currying {
     
     fun <P1, P2, R> ((P1, P2) -> R).curried(): (P1) -> (P2) -> R =
         { p1: P1 -> { p2: P2 -> this(p1, p2) } }
+    
+    val callback: (String) -> (String) -> (String) -> (String) -> (String) -> String = { v1 ->
+        { v2 -> { v3 -> { v4 -> { v5 -> v1 + v2 + v3 + v4 + v5 } } } }
+    }
 }
